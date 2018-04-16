@@ -9,8 +9,12 @@ const UrlModel = require('./urlModel');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// get env variables
+const user = process.env.MLAB_USERNAME;
+const password = process.env.MLAB_PASSWORD;
+
 // Set up monngoose connection
-const mongoDB = 'mongodb://mkfisher82:nra4ever@ds131997.mlab.com:31997/url-shortener';
+const mongoDB = `mongodb://${user}:${password}@ds131997.mlab.com:31997/url-shortener`;
 mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
