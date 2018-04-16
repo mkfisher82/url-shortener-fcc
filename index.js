@@ -55,7 +55,7 @@ app.get('/new/*', (req, res) => {
           if (error) {
             console.log(error);
           }
-          res.json(url);
+          res.json({url.originalUrl, url.shortUrl});
         });
       }
     });
@@ -77,4 +77,5 @@ app.get('/:id', (req, res) => {
     }
   });
 });
+
 app.listen(process.env.PORT || 3000);
