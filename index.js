@@ -43,22 +43,27 @@ app.get('/new/*', (req, res) => {
       shortUrl,
     });
 
-    UrlModel.findOne({ originalUrl }).exec((err, foundDoc) => {
-      if (err) {
-        console.log(err);
-      }
+    UrlModel.findOne({ originalUrl })
+      .select('originalUrl shortUrl -_id')
+      .exec((err, foundDoc) => {
+        if (err) {
+          console.log(err);
+        }
 
-      if (foundDoc) {
-        res.json(foundDoc);
-      } else {
-        url.save((error) => {
-          if (error) {
-            console.log(error);
-          }
-          res.json({url.originalUrl, url.shortUrl});
-        });
-      }
-    });
+        if (foundDoc) {
+          res.json(foundDoc);
+        } else {
+          url.save((error) => {
+            if (error) {
+              console.log(error);
+            }
+
+            const data = { originalUrl, shortUrl };
+
+            res.json(data);
+          });
+        }
+      });
   } else {
     res.send('Please enter a valid url');
   }
